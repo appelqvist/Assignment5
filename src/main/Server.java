@@ -11,6 +11,8 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * Created by Andreas Appelqvist on 2016-01-11.
+ *
+ * Server
  */
 public class Server {
 
@@ -21,6 +23,11 @@ public class Server {
 
     private GUIServer gui;
 
+    /**
+     * Konstruktor initiserar Server med socket.
+     * @param nbrOfThreads
+     * @param port
+     */
     public Server(int nbrOfThreads, int port) {
 
         gui = new GUIServer(this);
@@ -39,10 +46,11 @@ public class Server {
         cc.start();
     }
 
-    public void show(){
-        System.out.println(executor.getActiveCount()+" .. "+chs.size());
-    }
 
+    /**
+     * Går genom alla klienter och skickar meddelande
+     * @param str
+     */
     public void sendMessageToClients(String str) {
         str = "Server: "+str;
         for (int i = 0; i < chs.size(); i++) {
@@ -52,15 +60,27 @@ public class Server {
     }
 
 
+    /**
+     * Skickar en clienthandler till trådpolen att ta hand om.
+     * @param r
+     */
     public void handleClient(Runnable r) {
         executor.execute(r);
     }
 
+
+    /**
+     * Klassen håller reda på en klient
+     */
     private class ClientHandler implements Runnable {
         private Socket client;
         private ObjectInputStream clientInput;
         private ObjectOutputStream clientOut;
 
+        /**
+         * Konstruktor initisierar strömmar för en klient
+         * @param socket
+         */
         public ClientHandler(Socket socket) {
             client = socket;
             try {
@@ -74,6 +94,10 @@ public class Server {
             }
         }
 
+        /**
+         * Skicka meddelande till klienten som CH tar hand om.
+         * @param str
+         */
         public void sendMessage(String str){
             try {
                 clientOut.writeObject(str);
@@ -83,6 +107,9 @@ public class Server {
             }
         }
 
+        /**
+         * Run-loop
+         */
         @Override
         public void run() {
             while (true) { //Komma på något så att den inte går i all evighet
@@ -99,6 +126,10 @@ public class Server {
         }
     }
 
+    /**
+     *
+     * Klass som kopplar en client till en ClientHandler
+     */
     private class ClientConnector extends Thread {
         @Override
         public void run() {

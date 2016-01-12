@@ -5,6 +5,8 @@ import java.net.Socket;
 
 /**
  * Created by Andreas Appelqvist on 2016-01-11.
+ *
+ * Client
  */
 public class Client {
 
@@ -20,6 +22,12 @@ public class Client {
 
     private boolean listenerRunning = false;
 
+    /**
+     * Konstruktor
+     *
+     * @param ip
+     * @param port
+     */
     public Client(String ip, int port) {
         gui = new GUIClient(this);
         gui.Start();
@@ -32,6 +40,10 @@ public class Client {
         }
     }
 
+    /**
+     * Skicka meddelande till server om koppling finns
+     * @param str
+     */
     public void sendMessage(String str) {
         if (connected) {
             try {
@@ -46,6 +58,10 @@ public class Client {
         }
     }
 
+    /**
+     * Öppnar en koppling mot server
+     * @return
+     */
     private boolean connect() {
         try {
             socket = new Socket(ip, port);
@@ -62,6 +78,9 @@ public class Client {
         }
     }
 
+    /**
+     * Stänger kopplningen mot server
+     */
     private void disconnect() {
         try {
             socket.close();
@@ -72,6 +91,9 @@ public class Client {
         }
     }
 
+    /**
+     * Lyssnare som lyssnar efter meddelande från server
+     */
     private class Listener extends Thread {
         @Override
         public void run() {

@@ -67,10 +67,17 @@ public class GUIServer
 		btnSend.addActionListener(new ClickListener());
 	}
 
+	/**
+	 * Skriver en rad i gui
+	 * @param str
+	 */
 	public void writeRow(String str){
 		lstMsg.append(str);
 	}
 
+	/**
+	 * ClickListeners
+	 */
 	private class ClickListener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
