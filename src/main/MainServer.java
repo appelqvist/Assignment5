@@ -3,8 +3,8 @@ package main;
 /**
  * Created by Andreas Appelqvist on 2016-01-11.
  */
-public class Init {
+public class MainServer {
     public static void main(String[] args) {
-        System.out.println("Init");
+        Server server = new Server(10,8888);
     }
 }
